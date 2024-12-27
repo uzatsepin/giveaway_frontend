@@ -12,7 +12,8 @@ export default defineNuxtConfig({
       '/api/**': {
         proxy: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api/**'
       }
-    }
+    },
+    serveStatic: true,
   },
   routeRules: {
     '/admin/**': { appMiddleware: ['auth'] },
