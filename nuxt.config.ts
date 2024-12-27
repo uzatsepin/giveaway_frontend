@@ -4,19 +4,19 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_API_BASE_URL || 'http://localhost:3003/api'
+      apiBaseUrl: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api'
     }
   },
   nitro: {
     routeRules: {
       '/api/**': {
-        proxy: process.env.NUXT_API_BASE_URL || 'http://localhost:3003/api/**'
+        proxy: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api/**'
       }
     }
   },
   routeRules: {
     '/admin/**': { appMiddleware: ['auth'] },
-    '/api/**': { proxy: process.env.NUXT_API_BASE_URL || 'http://localhost:3003/api/**' }
+    '/api/**': { proxy: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api/**' }
   },
   shadcn: {
     /**
