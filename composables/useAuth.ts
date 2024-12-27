@@ -19,7 +19,6 @@ export const useAuth = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${tokenValue}`
                 },
-                credentials: 'include'
             });
       
             if (data.success && data.data?.user) {
