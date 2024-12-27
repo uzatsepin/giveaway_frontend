@@ -44,6 +44,14 @@ jobs:
             echo "Pulling latest changes from repository..."
             git pull || exit
 
+            echo "Building the project..."
+            yarn generate || exit
+
+            if [ ! -d ".output/public" ]; then
+              echo "Error: .output/public does not exist or is empty."
+              exit 1
+            fi
+
             echo "Removing old files from /var/www/wogiveaway.shop..."
             sudo rm -rf /var/www/wogiveaway.shop/* || exit
 
