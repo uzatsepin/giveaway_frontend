@@ -4,7 +4,6 @@ import type { AuthResponse } from "~/types/auth.type";
 
 export const useAuth = () => {
     const config = useRuntimeConfig();
-    const { toast } = useToast();
     const authStore = useAuthStore();
     const isLoading = ref(false);
 
@@ -12,39 +11,30 @@ export const useAuth = () => {
         if (!tokenValue) return false;
       
         try {
-          isLoading.value = true;
+            isLoading.value = true;
       
-          // Отправляем запрос на сервер для проверки токена
-          const data = await $fetch<AuthResponse>(`${config.public.apiBaseUrl}/user/verify`, {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${tokenValue}`,
-            },
-          });
+            const data = await $fetch<AuthResponse>(`${config.public.apiBaseUrl}/user/verify`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${tokenValue}`
+                },
+                credentials: 'include'
+            });
       
-          if (data.success && data.data?.user) {
-            authStore.setUserData(data.data.user);
-            return true;
-          }
+            if (data.success && data.data?.user) {
+                authStore.setUserData(data.data.user);
+                return true;
+            }
       
-          return false;
+            return false;
         } catch (error: any) {
-          console.error('Error during token validation:', error);
-      
-          const errorMessage = error.data?.data?.message || 'Помилка авторизації';
-          toast({
-            title: 'Помилка',
-            description: errorMessage,
-            variant: 'destructive',
-          });
-      
-          return false;
+            console.error('Error during token validation:', error);
+            return false;
         } finally {
-          // Завершаем состояние загрузки
-          isLoading.value = false;
+            isLoading.value = false;
         }
-      };
-      
+    };
 
     return {
         validateToken,

@@ -19,19 +19,26 @@ export const useAuthStore = defineStore("auth", () => {
                 },
                 body: JSON.stringify(formData)
             });
-
+    
             if (response.success) {
-                useCookie("token").value = response.data?.token;
+                const tokenCookie = useCookie('token', {
+                    maxAge: 60 * 60 * 24 * 7,
+                    path: '/',
+                    secure: true,
+                    sameSite: 'lax'
+                });
+                
+                tokenCookie.value = response.data?.token;
                 userData.value = response.data?.user;
                 return { success: true };
             }
-
-            const errorMsg = response.data?.message || response.error || "Помилка видалення розіграшу";
+    
+            const errorMsg = response.data?.message || response.error || "Помилка авторизації";
             return { success: false, error: errorMsg };
         } catch (error: any) {
             console.log(error.message.data);
             
-            const errorMsg = error.data?.data?.message || error.message || "Помилка видалення розіграшу";
+            const errorMsg = error.data?.data?.message || error.message || "Помилка авторизації";
             return { success: false, error: errorMsg };
         } finally {
             isLoading.value = false;
@@ -42,9 +49,16 @@ export const useAuthStore = defineStore("auth", () => {
         userData.value = user;
     }
 
+    function clearUserData() {
+        userData.value = undefined;
+        const tokenCookie = useCookie('token');
+        tokenCookie.value = null;
+      }
+
     return {
         login,
         userData,
-        setUserData
+        setUserData,
+        clearUserData
     };
 });
