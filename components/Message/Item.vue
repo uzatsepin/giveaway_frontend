@@ -14,7 +14,7 @@
                         class="w-6 h-6" />
                 </p>
             </div>
-            <div class="absolute -left-14">
+            <div class="absolute -left-14 hidden md:block">
                 <NuxtImg
                     src="/icons/wo-logo.svg"
                     class="rounded-full w-8 h-8 object-cover" />

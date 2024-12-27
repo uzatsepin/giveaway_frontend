@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <div class="space-y-6">
-            <div class="flex justify-between">
+            <div class="flex flex-col md:flex-row justify-between">
                 <div class="flex flex-col gap-4">
                     <h1 class="text-2xl font-bold text-slate-900">{{ giveaway?.title }}</h1>
                     <p class="text-slate-600">{{ giveaway?.description }}</p>
@@ -52,7 +52,7 @@
                     <NuxtImg
                         :src="giveaway?.imageUrl"
                         alt="Giveaway Image"
-                        class="w-full h-64 object-cover rounded-lg"
+                        class="w-full h-fit md:h-64 object-fit-contain md:object-cover rounded-lg"
                         loading="lazy"
                         placeholder
                         format="webp"
@@ -73,7 +73,7 @@
                 <GiveawayStatCard
                     title="Повідомлень"
                     :value="giveaway?.messages.length"
-                    :subtext="`Повідомлень про розіграш`"
+                    :subtext="`Повідомлень про розі`"
                     :icon="Send" 
                 />
                 <GiveawayStatCard
@@ -161,7 +161,7 @@
                             v-model="form.status"
                             @update:modelValue="handleStatusChange">
                             <SelectTrigger>
-                                <SelectValue :placeholder="giveawayStatuses.find((s) => s.value === form.status)?.label" />
+                                <SelectValue :placeholder="giveawayStatuses.find((s:any) => s.value === form.status)?.label" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>

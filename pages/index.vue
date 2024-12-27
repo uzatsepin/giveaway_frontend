@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Вхід в адмін панель</h2>
@@ -13,7 +13,7 @@
                             id="username"
                             type="text"
                             placeholder="username"
-                            class="pl-10" 
+                            class="pl-10 text-[16px]" 
                             v-model="form.username"
                             />
                         <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
@@ -25,7 +25,7 @@
                             id="password"
                             type="password"
                             placeholder="******"
-                            class="pl-10" 
+                            class="pl-10 text-[16px]" 
                             v-model="form.password"
                             />
                         <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { toast, useToast } from "~/components/ui/toast/use-toast";
+import { toast } from "~/components/ui/toast/use-toast";
 import { User, RectangleEllipsis } from 'lucide-vue-next';
 import { useAuthStore } from "~/store/authStore";
 

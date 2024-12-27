@@ -2,7 +2,7 @@
     <AdminLayout>
         <h2 class="text-2xl font-bold text-gray-900">Створити повідомлення в Telegram</h2>
         <div
-            class="mt-8 grid grid-cols-2"
+            class="mt-8 grid grid-cols-1 gap-8 md:gap-0 md:grid-cols-2"
             v-if="!isLoading">
             <div>
                 <h3 class="text-lg font-semibold mb-4">Створення повідомлення</h3>
