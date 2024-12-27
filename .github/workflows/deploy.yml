@@ -3,67 +3,52 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # Запускать деплой при пуше в main
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Запуск на последней версии Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # Шаг для клонирования репозитория
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Шаг для установки Node.js (указываем нужную версию)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0'  # Укажите вашу версию Node.js, если нужно
+          node-version: '20.10.0'
 
-      # Шаг для установки зависимостей
       - name: Install dependencies
         run: yarn install
 
-      # Шаг для сборки приложения
-      - name: Build the app
-        run: yarn build
-
-      # Шаг для генерации статичных файлов (если используется Nuxt.js или аналогичный фреймворк)
-      - name: Generate the app
+      - name: Build and Generate the app
         run: yarn generate
 
-      # Шаг для настройки SSH-агента
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Шаг для добавления ключа хоста в known_hosts
       - name: Add VPS host to known_hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      # Шаг для деплоя на сервер
       - name: Deploy the app to VPS
         run: |
-          # Подключаемся к серверу
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
-          
-          # Переходим в папку с проектом на сервере
+          echo "Connecting to VPS..."
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            # Переходим в папку с проектом caraggregator-front
+            echo "Navigating to project directory..."
             cd /root/giveaway_frontend || exit
-          
-            # Получаем последние изменения из репозитория
+
+            echo "Pulling latest changes from repository..."
             git pull || exit
-          
-            # Генерируем приложение, если нужно
-            yarn generate || exit
-          
-            # Копируем сгенерированные файлы
+
+            echo "Removing old files from /var/www/wogiveaway.shop..."
+            sudo rm -rf /var/www/wogiveaway.shop/* || exit
+
+            echo "Copying new files to /var/www/wogiveaway.shop..."
             sudo cp -r .output/public/* /var/www/wogiveaway.shop || exit
+
+            echo "Deployment completed successfully."
           EOF
-        env:
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
