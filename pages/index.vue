@@ -47,6 +47,8 @@ import { toast, useToast } from "~/components/ui/toast/use-toast";
 import { User, RectangleEllipsis } from 'lucide-vue-next';
 import { useAuthStore } from "~/store/authStore";
 
+const {validateToken} = useAuth();
+
 const form = reactive({
     username: '',
     password: ''
@@ -77,16 +79,12 @@ const handleLogin = async () => {
 }
 
 
-// onMounted(async () => {
-//     if (token.value) {
-//         const isValid = await validateToken(token.value || '');
-//         if (isValid) {
-//             const tokenCookie = useCookie('token')
-//             tokenCookie.value = ''
-//         }
-//     }
-
-// })
+onMounted(async () => {
+  const token = useCookie('token').value;
+  if (token && !authStore.userData) {
+    await validateToken(token);
+  }
+});
 
 
 </script>

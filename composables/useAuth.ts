@@ -8,34 +8,43 @@ export const useAuth = () => {
     const authStore = useAuthStore();
     const isLoading = ref(false);
 
-    const validateToken = async (tokenValue: string) => {
+    const validateToken = async (tokenValue: string): Promise<boolean> => {
         if (!tokenValue) return false;
-
+      
         try {
-            isLoading.value = true;
-            const data = await $fetch<AuthResponse>(`${config.public.apiBaseUrl}/user/verify`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${tokenValue}`
-                }
-            });
-            if (data.success && data.data?.user) {
-                authStore.setUserData(data.data.user);
-            }
-            return data.success;
+          isLoading.value = true;
+      
+          // Отправляем запрос на сервер для проверки токена
+          const data = await $fetch<AuthResponse>(`${config.public.apiBaseUrl}/user/verify`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${tokenValue}`,
+            },
+          });
+      
+          if (data.success && data.data?.user) {
+            authStore.setUserData(data.data.user);
+            return true;
+          }
+      
+          return false;
         } catch (error: any) {
-            console.error("Error:", error);
-            const errorMessage = error.data?.data?.message || "Помилка авторизації";
-            toast({
-                title: "Помилка",
-                description: errorMessage,
-                variant: "destructive"
-            });
-            return false;
+          console.error('Error during token validation:', error);
+      
+          const errorMessage = error.data?.data?.message || 'Помилка авторизації';
+          toast({
+            title: 'Помилка',
+            description: errorMessage,
+            variant: 'destructive',
+          });
+      
+          return false;
         } finally {
-            isLoading.value = false;
+          // Завершаем состояние загрузки
+          isLoading.value = false;
         }
-    };
+      };
+      
 
     return {
         validateToken,
