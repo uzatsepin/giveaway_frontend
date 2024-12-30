@@ -44,7 +44,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <Button @click="handleOpenEditGiveaway"> <Edit class="w-5 h-5" /> Редагувати </Button>
+                            <!-- <Button @click="handleOpenEditGiveaway"> <Edit class="w-5 h-5" /> Редагувати </Button> -->
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <GiveawayStatCard
                     title="Повідомлень"
                     :value="giveaway?.messages.length"
-                    :subtext="`Повідомлень про розі`"
+                    :subtext="`Повідомлень про розіграш`"
                     :icon="Send" 
                 />
                 <GiveawayStatCard
@@ -98,7 +98,7 @@
 
         </div>
 
-        <Dialog v-model:open="openEditGiveaway">
+        <!-- <Dialog v-model:open="openEditGiveaway">
             <DialogContent class="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Редагувати розіграш – {{ giveaway?.title }}</DialogTitle>
@@ -191,7 +191,7 @@
                     </DialogFooter>
                 </form>
             </DialogContent>
-        </Dialog>
+        </Dialog> -->
 
         <Toaster />
     </AdminLayout>

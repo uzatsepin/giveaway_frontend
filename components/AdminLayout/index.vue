@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <div class="flex">
+        <div class="flex h-screen overflow-hidden"> <!-- Added h-screen and overflow-hidden -->
             <!-- Mobile Toggle -->
             <button 
                 @click="toggleSidebar"
@@ -9,20 +9,22 @@
                 <X v-else class="w-6 h-6" />
             </button>
 
-            <!-- Sidebar -->
+            <!-- Sidebar with fixed height -->
             <Transition name="slide">
                 <div 
                     v-show="isSidebarOpen" 
-                    class="w-72 bg-white h-screen shadow-lg fixed lg:relative z-40">
-                    <div class="flex flex-col h-full">
-                        <!-- Logo -->
-                        <h2 class="font-bold text-xl my-8 text-center text-slate-700 flex items-center gap-2 justify-center">
+                    class="w-72 bg-white h-screen shadow-lg fixed lg:relative z-40 flex flex-col">
+                    <!-- Logo section -->
+                    <div class="p-8 shrink-0">
+                        <h2 class="font-bold text-xl text-center text-slate-700 flex items-center gap-2 justify-center">
                             <img src="/icons/telegram.svg" class="w-8 h-8" />
                             Wo Giveaway
                         </h2>
+                    </div>
 
-                        <!-- Navigation -->
-                        <nav class="mt-12 flex flex-col gap-4 px-2">
+                    <!-- Scrollable navigation -->
+                    <nav class="flex-1 overflow-y-auto px-2 mt-12">
+                        <div class="flex flex-col gap-4">
                             <NuxtLink
                                 v-for="link in menu"
                                 :key="link.title"
@@ -31,34 +33,32 @@
                                 <component :is="link.icon" class="w-6 h-6" />
                                 {{ link.title }}
                             </NuxtLink>
-                        </nav>
+                        </div>
+                    </nav>
 
-                        <!-- User Profile -->
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-2 mb-8 px-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="bg-slate-100 rounded-full w-[48px] h-[48px] flex items-center justify-center text-xl font-medium text-slate-700">
-                                        {{ userInitials }}
-                                    </span>
-                                    <div class="flex flex-col">
-                                        <span class="text-sm font-medium text-slate-700">{{ userData?.username }}</span>
-                                        <button 
-                                            @click="handleLogout"
-                                            class="text-sm text-red-500 hover:text-red-600 text-left">
-                                            Вийти
-                                        </button>
-                                    </div>
-                                </div>
+                    <!-- User Profile fixed at bottom -->
+                    <div class="p-4 border-t shrink-0">
+                        <div class="flex items-center gap-4">
+                            <span class="bg-slate-100 rounded-full w-[48px] h-[48px] flex items-center justify-center text-xl font-medium text-slate-700">
+                                {{ userInitials }}
+                            </span>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-slate-700">{{ userData?.username }}</span>
+                                <button 
+                                    @click="handleLogout"
+                                    class="text-sm text-red-500 hover:text-red-600 text-left">
+                                    Вийти
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </Transition>
 
-            <!-- Main Content -->
-            <div class="flex-1 p-4 lg:p-8 lg:pl-10 bg-gray-100">
+            <!-- Main content with scroll -->
+            <main class="flex-1 overflow-y-auto p-8">
                 <slot></slot>
-            </div>
+            </main>
         </div>
     </div>
 </template>

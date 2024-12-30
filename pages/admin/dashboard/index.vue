@@ -7,24 +7,23 @@
                 Створити розіграш
             </Button>
         </div>
-        <div class="w-full overflow-x-auto scrollbar-hide mb-6">
-    <nav class="flex w-max border-b border-gray-200">
-        <button
-            v-for="tab in tabStore.tabs"
-            :key="tab.id"
-            @click="tabStore.setActiveTab(tab.id)"
-            :class="[
-                'px-4 py-2 font-medium text-sm whitespace-nowrap',
-                activeTab === tab.id
-                    ? 'border-b-2 border-[#6734ff] text-[#6734ff]'
-                    : 'text-gray-500 hover:text-gray-700 hover:border-[#6734ff]'
-            ]">
-            {{ tab.label }} ({{ giveawaysByStatus[tab.id] || 0 }})
-        </button>
-    </nav>
-</div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="border-b border-gray-200">
+                <div class="flex space-x-2">
+                    <button
+                        v-for="tab in tabStore.tabs"
+                        :key="tab.id"
+                        @click="tabStore.setActiveTab(tab.id)"
+                        :class="[
+                            'shrink-0 px-4 py-2 font-medium text-sm text-center',
+                            activeTab === tab.id
+                                ? 'border-b-2 border-[#6734ff] text-[#6734ff]'
+                                : 'text-gray-500 hover:text-gray-700 hover:border-[#6734ff]'
+                        ]">
+                        {{ tab.label }} ({{ giveawaysByStatus[tab.id] || 0 }})
+                    </button>
+                </div>
+            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
             <GiveawayCard
                 v-for="giveaway in filteredGiveaways"
                 :key="giveaway.id"
@@ -101,4 +100,12 @@ const giveawaysByStatus = computed(() => {
 await giveawayStore.fetchGiveaways();
 </script>
 
-<style></style>
+<style>
+.scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+</style>

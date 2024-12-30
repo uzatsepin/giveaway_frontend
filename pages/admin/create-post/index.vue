@@ -20,7 +20,9 @@
                             <QuillEditor
                                 theme="snow"
                                 v-model:content="form.content"
-                                contentType="html" />
+                                contentType="html" 
+                                :toolbar="['bold', 'italic', 'link']"
+                                />
                         </ClientOnly>
                         <div class="mt-4">
                             <Label for="imageUrl">Посилання на зображення:</Label>

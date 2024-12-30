@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 border border-gray-100 overflow-hidden flex flex-col h-full">
         <div class="px-5 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <div
@@ -44,7 +44,7 @@
                     format="webp" />
             </div>
 
-            <div class="prose prose-sm max-w-none mb-4">
+            <div class="max-w-none mb-4">
                 <p
                     class="text-gray-600 line-clamp-3 whitespace-pre-line"
                     v-html="message?.content"></p>
@@ -66,13 +66,13 @@
                 v-if="message.buttonText"
                 class="mb-4">
                 <div class="text-xs text-gray-500 mb-1.5">Кнопка в повідомленні:</div>
-                <span class="inline-block px-4 py-2 bg-blue-50 text-blue-600 rounded-md text-sm font-medium">
+                <span class="inline-block px-4 py-2 bg-blue-50 text-blue-600 rounded-md text-sm font-medium mt-2">
                     {{ message.buttonText }}
                 </span>
             </div>
         </div>
 
-        <div class="px-5 py-4 bg-gray-50 border-t border-gray-100">
+        <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 mt-auto">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center">
@@ -85,7 +85,7 @@
 									</div>
 								</TooltipTrigger>
 								<TooltipContent>
-									<p>{{message?.giveaway?.createdBy?.username}}</p>
+									<p>Створила: {{message?.giveaway?.createdBy?.username}}</p>
 								</TooltipContent>
 								</Tooltip>
 							</TooltipProvider>
@@ -110,7 +110,7 @@
                     </div>
                 </div>
 
-                <Button size="sm">Переглянути</Button>
+                <!-- <Button size="sm">Переглянути</Button> -->
             </div>
         </div>
     </div>
