@@ -15,7 +15,7 @@
                 </button>
 
                 <div class="mt-3 text-center sm:mt-0 sm:text-left">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">Видалення розіграшу – {{ name }}</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 max-w-[95%]">Видалення розіграшу – {{ name }}</h3>
 
                     <div class="mt-4">
                         <p
