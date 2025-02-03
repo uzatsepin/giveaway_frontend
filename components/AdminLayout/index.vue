@@ -56,7 +56,7 @@
             </Transition>
 
             <!-- Main content with scroll -->
-            <main class="flex-1 overflow-y-auto p-8">
+            <main class="flex-1 overflow-y-auto md:p-8 p-6 pb-24">
                 <slot></slot>
             </main>
         </div>

@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <div class="space-y-6">
-            <div class="flex flex-col md:flex-row justify-between">
+            <div class="flex flex-col gap-6 md:gap-0 md:flex-row justify-between">
                 <div class="flex flex-col gap-4">
                     <h1 class="text-2xl font-bold text-slate-900">{{ giveaway?.title }}</h1>
                     <p class="text-slate-600">{{ giveaway?.description }}</p>
@@ -10,14 +10,18 @@
                             <CalendarCheck class="w-6 h-6 text-slate-600" />
                             <p class="text-slate-600">
                                 Дата початку розіграшу:
-                                <span class="font-bold text-slate-800">{{ giveaway?.startDate ? DateUtils.formatDate(new Date(giveaway?.startDate)) : "" }}</span>
+                                <span class="font-bold text-slate-800">{{
+                                    giveaway?.startDate ? DateUtils.formatDate(new Date(giveaway?.startDate)) : ""
+                                }}</span>
                             </p>
                         </div>
                         <div class="flex items-center gap-2">
                             <CalendarClock class="w-6 h-6 text-slate-600" />
                             <p class="text-slate-600">
                                 Дата завершення розіграшу:
-                                <span class="font-bold text-slate-800">{{ giveaway?.endDate ? DateUtils.formatDate(new Date(giveaway?.endDate)) : "" }}</span>
+                                <span class="font-bold text-slate-800">{{
+                                    giveaway?.endDate ? DateUtils.formatDate(new Date(giveaway?.endDate)) : ""
+                                }}</span>
                             </p>
                         </div>
                         <div class="flex items-center gap-2">
@@ -35,11 +39,12 @@
                                     <span
                                         class="px-3 py-1 rounded-full text-sm font-bold"
                                         :class="{
-                                            'bg-yellow-100 text-yellow-800': giveaway?.status.toLocaleLowerCase() === 'draft',
-                                            'bg-green-100 text-green-600': giveaway?.status.toLocaleLowerCase() === 'active',
-                                            'bg-blue-100 text-blue-800': giveaway?.status.toLocaleLowerCase() === 'completed',
-                                            'bg-red-100 text-red-800': giveaway?.status.toLocaleLowerCase() === 'cancelled'
-                                        }">
+                                            'bg-yellow-100 text-yellow-800 border border-yellow-300': giveaway?.status.toLocaleLowerCase() === 'draft',
+                                            'bg-green-100 text-green-700 border border-green-300': giveaway?.status.toLocaleLowerCase() === 'active',
+                                            'bg-blue-100 text-blue-800 border border-blue-300': giveaway?.status.toLocaleLowerCase() === 'completed',
+                                            'bg-red-100 text-red-800 border border-red-300': giveaway?.status.toLocaleLowerCase() === 'cancelled',
+                                        }"
+                                    >
                                         {{ statusText }}
                                     </span>
                                 </div>
@@ -56,31 +61,23 @@
                         loading="lazy"
                         placeholder
                         format="webp"
-                        v-if="!isLoading" />
+                        v-if="!isLoading"
+                    />
                     <div v-else class="flex items-center justify-center h-64 w-full bg-gray-100 rounded-lg min-w-[300px]">
                         <Loader size="xl" />
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <GiveawayStatCard
-                    title="Залишилось"
-                    :value="durationStats.value"
-                    :subtext="durationStats.subtext"
-                    :icon="CalendarClock" 
-                />
+            <div class="grid grid-cols-1 gap-2 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <GiveawayStatCard title="Залишилось" :value="durationStats.value" :subtext="durationStats.subtext" :icon="CalendarClock" />
                 <GiveawayStatCard
                     title="Повідомлень"
                     :value="giveaway?.messages.length"
                     :subtext="`Повідомлень про розіграш`"
-                    :icon="Send" 
+                    :icon="Send"
                 />
-                <GiveawayStatCard
-                    title="Учасники"
-                    :value="giveaway?.participantsCount"
-                    :subtext="`Всього учасників`"
-                    :icon="UsersRound" />
+                <GiveawayStatCard title="Учасники" :value="giveaway?.participantsCount" :subtext="`Всього учасників`" :icon="UsersRound" />
             </div>
 
             <GiveawayParticipantsTable :giveawayId="giveaway?.id" />
@@ -88,14 +85,10 @@
             <div>
                 <h3 class="text-xl font-bold mt-10">Останні повідомлення по розіграшу</h3>
 
-                <div class="mt-6 ml-10 grid grid-cols-3 gap-16">
-                    <MessageItem
-                        v-for="message in giveaway?.messages"
-                        :key="message.id"
-                        :message="message" />
+                <div class="mt-6 md:ml-10 grid grid-cols-1 md:grid-cols-3 gap-16">
+                    <MessageItem v-for="message in giveaway?.messages" :key="message.id" :message="message" />
                 </div>
             </div>
-
         </div>
 
         <!-- <Dialog v-model:open="openEditGiveaway">
@@ -239,7 +232,7 @@ const giveawayStatuses = [
     { value: "draft", label: "Чернетка" },
     { value: "active", label: "Активний" },
     { value: "completed", label: "Завершений" },
-    { value: "cancelled", label: "Скасований" }
+    { value: "cancelled", label: "Скасований" },
 ];
 
 const originalForm = ref<IGiveawayForm | null>(null);
@@ -249,7 +242,7 @@ const form = ref<IGiveawayForm>({
     startDate: "",
     endDate: "",
     imageUrl: "",
-    status: "draft"
+    status: "draft",
 });
 
 const handleStatusChange = (newStatus: string) => {
@@ -264,7 +257,7 @@ const handleOpenEditGiveaway = () => {
             startDate: formatDate(giveaway.value?.startDate),
             endDate: formatDate(giveaway.value?.endDate),
             imageUrl: giveaway.value?.imageUrl || "",
-            status: giveaway.value?.status
+            status: giveaway.value?.status,
         };
         form.value = { ...initialForm };
         originalForm.value = { ...initialForm };
@@ -300,7 +293,7 @@ const handleSubmit = async () => {
                 toast({
                     title: "Помилка",
                     description: "Дата початку повинна бути менше дати закінчення та не раніше поточної дати",
-                    variant: "destructive"
+                    variant: "destructive",
                 });
                 return;
             }
@@ -310,12 +303,12 @@ const handleSubmit = async () => {
             method: "PUT",
             body: {
                 ...modifiedData,
-                status: form.value.status
+                status: form.value.status,
             },
             headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         });
 
         if (response.success) {
@@ -324,7 +317,7 @@ const handleSubmit = async () => {
             toast({
                 title: "Успіх",
                 description: "Розіграш успішно оновлено",
-                variant: "default"
+                variant: "default",
             });
         }
     } catch (error: any) {
@@ -339,7 +332,7 @@ const handleSubmit = async () => {
         toast({
             title: "Помилка",
             description: errorMessage,
-            variant: "destructive"
+            variant: "destructive",
         });
     } finally {
         isLoading.value = false;
@@ -355,16 +348,16 @@ const durationStats = computed(() => {
 
     return {
         value: `${remainingDays} днів`,
-        subtext: `Всього ${totalDays} днів`
+        subtext: `Всього ${totalDays} днів`,
     };
 });
 
 const statusText = computed(() => {
     const statusMap = {
         draft: "Черновик",
-        active: "Активный",
-        completed: "Завершен",
-        cancelled: "Отменен"
+        active: "Активний",
+        completed: "Завершений",
+        cancelled: "Відменений",
     } as const;
     return statusMap[(giveaway.value?.status?.toLowerCase() ?? "draft") as keyof typeof statusMap];
 });
@@ -373,9 +366,8 @@ watch(
     () => form.value.status,
     (newStatus, oldStatus) => {
         console.log("Status changed:", { old: oldStatus, new: newStatus });
-    }
+    },
 );
 
 await giveawayStore.fetchGiveawayById(Number(route.params.id));
-
 </script>

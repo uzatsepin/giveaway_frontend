@@ -47,7 +47,7 @@
 
                 <!-- Messages Grid -->
                 <div v-else>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                         <MessageHistoryItem
                             v-for="message in paginatedMessages"
                             :key="message.id"

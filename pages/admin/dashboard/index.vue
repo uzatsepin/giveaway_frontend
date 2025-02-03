@@ -8,7 +8,7 @@
             </Button>
         </div>
             <div class="border-b border-gray-200">
-                <div class="flex space-x-2">
+                <div class="flex space-x-2 overflow-scroll scrollbar-hide">
                     <button
                         v-for="tab in tabStore.tabs"
                         :key="tab.id"
@@ -23,7 +23,7 @@
                     </button>
                 </div>
             </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-6">
             <GiveawayCard
                 v-for="giveaway in filteredGiveaways"
                 :key="giveaway.id"

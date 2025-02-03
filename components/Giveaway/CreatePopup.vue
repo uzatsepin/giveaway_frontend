@@ -86,15 +86,9 @@
                     </div>
                 </form>
 
-                <div
-                    v-if="!isLoading"
-                    class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse gap-3">
-                    <Button @click="handleSubmit"> Створити розіграш </Button>
-                    <Button
-                        variant="secondary"
-                        @click="$emit('close')">
-                        Скасувати
-                    </Button>
+                <div v-if="!isLoading" class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse justify-between w-full gap-3">
+                    <Button @click="handleSubmit" class="block"> Створити розіграш </Button>
+                    <Button variant="secondary" @click="$emit('close')" class="block"> Скасувати </Button>
                 </div>
             </div>
             <div

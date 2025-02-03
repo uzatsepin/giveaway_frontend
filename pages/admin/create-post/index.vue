@@ -6,7 +6,7 @@
             v-if="!isLoading">
             <div>
                 <h3 class="text-lg font-semibold mb-4">Створення повідомлення</h3>
-                <div class="p-6 rounded-2xl bg-white shadow-md max-w-[550px] h-fit">
+                <div class="p-4 md:p-6 rounded-2xl bg-white shadow-md max-w-[550px] h-fit">
                     <form
                         @submit.prevent="handleSubmit"
                         class="">
@@ -20,9 +20,8 @@
                             <QuillEditor
                                 theme="snow"
                                 v-model:content="form.content"
-                                contentType="html" 
-                                :toolbar="['bold', 'italic', 'link']"
-                                />
+                                contentType="html"
+                                :toolbar="['bold', 'italic', 'link']" />
                         </ClientOnly>
                         <div class="mt-4">
                             <Label for="imageUrl">Посилання на зображення:</Label>
@@ -86,7 +85,9 @@
             </div>
         </div>
 
-        <div class="fixed inset-0 flex items-center justify-center z-50" v-else>
+        <div
+            class="fixed inset-0 flex items-center justify-center z-50"
+            v-else>
             <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" />
             <div class="relative">
                 <Loader
