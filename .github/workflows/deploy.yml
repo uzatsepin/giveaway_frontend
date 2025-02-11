@@ -18,11 +18,10 @@ jobs:
         with:
           node-version: '20.10.0'
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build and Generate the app
-        run: yarn generate
+      - name: Install dependencies and generate
+        run: |
+          yarn install
+          yarn generate
 
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.4
@@ -34,33 +33,12 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy the app to VPS
+      - name: Copy dist to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /root/giveaway_frontend || exit
-            
-            # Clean install
-            rm -rf node_modules
-            rm yarn.lock
-            yarn cache clean
-            
-            # Install dependencies
-            export NODE_ENV=production
-            yarn install --frozen-lockfile
-            
-            # Clear nuxt cache
-            rm -rf .nuxt
-            rm -rf .output
-            
-            # Generate
-            yarn generate
-            
-            if [ -d ".output/public" ]; then
-              sudo rm -rf /var/www/wogiveaway.shop/*
-              sudo cp -r .output/public/* /var/www/wogiveaway.shop
-              echo "Deployment completed successfully."
-            else
-              echo "Build failed: .output/public directory not found"
-              exit 1
-            fi
-          EOF
+          if [ -d ".output/public" ]; then
+            scp -r .output/public/* ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/wogiveaway.shop/
+            echo "Files copied successfully"
+          else
+            echo "Build failed: .output/public directory not found"
+            exit 1
+          fi
