@@ -6,7 +6,10 @@
                 <UserRoundPlus class="w-5 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div class="text-2xl font-bold">{{ historyStats?.current_subscribers?.toLocaleString("uk") }}</div>
+                <div v-if="status === 'pending'" class="text-2xl font-bold flex items-center gap-2">
+                    <Loader size="sm" />
+                </div>
+                <div v-else class="text-2xl font-bold">{{ historyStats?.current_subscribers?.toLocaleString("uk") }}</div>
                 <p
                     class="text-sm font-bold mt-2"
                     :class="{
@@ -34,7 +37,10 @@
                 <Eye class="w-5 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div class="text-2xl font-bold">{{ channelStats?.average_views }}</div>
+                <div v-if="status === 'pending'" class="text-2xl font-bold flex items-center gap-2">
+                    <Loader size="sm" />
+                </div>
+                <div v-else class="text-2xl font-bold">{{ channelStats?.average_views }}</div>
                 <p class="text-xs text-muted-foreground mt-2">Средня кількість переглядів постів</p>
                 <p class="text-xs text-muted-foreground mt-2">Останні 100 дописів</p>
             </CardContent>
@@ -45,7 +51,10 @@
                 <ChartPie class="w-5 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div class="text-2xl font-bold">{{ channelStats?.engagement_rate.toFixed(0) }} %</div>
+                <div v-if="status === 'pending'" class="text-2xl font-bold flex items-center gap-2">
+                    <Loader size="sm" />
+                </div>
+                <div v-else class="text-2xl font-bold">{{ channelStats?.engagement_rate.toFixed(0) }} %</div>
                 <p class="text-xs text-muted-foreground mt-2">Відсоток підписників переглядають пости</p>
                 <p class="text-xs text-muted-foreground mt-2">Останні 100 дописів</p>
             </CardContent>
@@ -73,8 +82,10 @@ const periodText = computed(() => {
     }
 });
 
-const { data: channelStats, status: statsStatus } = useAsyncData("stats", async () => {
+const { data: channelStats, status } = useAsyncData("stats", async () => {
     const response = await $fetch<{ success: true; data: IStats }>("https://tg.wogiveaway.shop/channels/woukraine/stats");
     return response.data;
+}, {
+    watch: [() => props.selectedPeriod],
 });
 </script>

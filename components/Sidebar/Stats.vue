@@ -4,13 +4,13 @@
             <li class="flex items-center justify-center gap-2 py-2 text-muted-foreground">
                 <UserRoundCheck class="w-5 h-5" />
                 Підписників:
-                <div v-if="isLoading" class="flex items-center">
+                <div v-if="status === 'pending'" class="flex items-center">
                     <Loader size="sm" />
                 </div>
-                <p v-else-if="error" class="text-destructive text-sm">
+                <p v-else-if="status === 'error'" class="text-destructive text-sm">
                     {{ error }}
                 </p>
-                <p v-else class="text-foreground">
+                <p v-else-if="status === 'success'" class="text-foreground">
                     {{ stats?.participants_count?.toLocaleString('uk') }}
                 </p>
             </li>
@@ -40,21 +40,20 @@ import { useStatsStore } from "~/store/stats";
 
 const statsStore = useStatsStore();
 const { stats } = storeToRefs(statsStore);
-const isLoading = ref(true);
-const error = ref<string | null>(null);
 
-const fetchStatsData = async () => {
-    try {
-        isLoading.value = true;
-        error.value = null;
-        await statsStore.fetchStats();
-    } catch (e: any) {
-        error.value = e.message || 'Помилка завантаження';
-    } finally {
-        isLoading.value = false;
+const { status, error } = useAsyncData(
+    'stats',
+    async () => {
+        try {
+            await statsStore.fetchStats();
+            return null;
+        } catch (e: any) {
+            return e.message || 'Помилка завантаження';
+        }
+    },
+    {
+        immediate: true,
+        watch: []
     }
-};
-
-// Initial fetch
-await fetchStatsData();
+);
 </script>
