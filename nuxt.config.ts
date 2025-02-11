@@ -15,27 +15,20 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_API_BASE_URL || 'https://wogiveaway.shop/api'
+      apiBaseUrl: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api'
     }
   },
   nitro: {
     routeRules: {
       '/api/**': {
-        proxy: process.env.NUXT_API_BASE_URL || 'https://wogiveaway.shop/api/**',
-        headers: {
-          'Connection': 'keep-alive',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-          'Access-Control-Allow-Headers': '*',
-          'Access-Control-Allow-Credentials': 'true'
-        }
+        proxy: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api/**',
       }
     },
     serveStatic: true,
   },
   routeRules: {
     '/admin/**': { appMiddleware: ['auth'] },
-    '/api/**': { proxy: process.env.NUXT_API_BASE_URL || 'https://wogiveaway.shop/api/**' }
+    '/api/**': { proxy: process.env.NUXT_API_BASE_URL || 'https://api.wogiveaway.shop/api/**' }
   },
   shadcn: {
     /**
