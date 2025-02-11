@@ -11,20 +11,20 @@
                     {{ error }}
                 </p>
                 <p v-else-if="status === 'success'" class="text-foreground">
-                    {{ stats?.participants_count?.toLocaleString('uk') }}
+                    {{ stats?.participants_count?.toLocaleString('uk') || 0 }}
                 </p>
             </li>
             <!-- <li class="flex items-center gap-2 py-2 text-muted-foreground border-b border-slate-200">
                 <Eye class="w-5 h-5" />
                 Переглядів:
                 <p class="text-foreground font-bold ml-auto">
-                    {{ stats.total_views }}
+                    {{ stats?.total_views || 0 }}
                 </p>
             </li>
             <li class="flex items-center gap-2 py-2 text-muted-foreground">
                 <MousePointerClick class="w-5 h-5" />
                 Взаємодія:
-                <p class="text-foreground font-bold ml-auto">{{ stats.engagement_rate }}%</p>
+                <p class="text-foreground font-bold ml-auto">{{ stats?.engagement_rate || 0 }}%</p>
             </li> -->
         </ul>
     </div>
@@ -37,23 +37,8 @@ import {
     MousePointerClick,
 } from "lucide-vue-next";
 import { useStatsStore } from "~/store/stats";
+import { storeToRefs } from 'pinia';
 
 const statsStore = useStatsStore();
-const { stats } = storeToRefs(statsStore);
-
-const { status, error } = useAsyncData(
-    'stats',
-    async () => {
-        try {
-            await statsStore.fetchStats();
-            return null;
-        } catch (e: any) {
-            return e.message || 'Помилка завантаження';
-        }
-    },
-    {
-        immediate: true,
-        watch: []
-    }
-);
+const { stats, status, error } = storeToRefs(statsStore);
 </script>

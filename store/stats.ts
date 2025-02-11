@@ -2,23 +2,54 @@ import { defineStore } from "pinia";
 import type { IDailyStats, IHotStats, IStats } from "~/types/stats.type";
 
 export const useStatsStore = defineStore("stats", () => {
-    const dailyStats = ref({} as IDailyStats);
-	const stats = ref({} as IStats);
+    const { data: stats, status, error, refresh } = useAsyncData(
+        'channel-stats',
+        async () => {
+            try {
+                const response = await $fetch<{success: boolean, data: IStats}>('https://tg.wogiveaway.shop/channels/woukraine/stats');
+                if (response.success && response.data) {
+                    return response.data;
+                }
+                throw new Error('Failed to fetch stats');
+            } catch (e: any) {
+                throw new Error(e.message || 'Помилка завантаження');
+            }
+        },
+        {
+            watch: [],
+            server: false,
+            transform: (response) => response as IStats
+        }
+    );
 
-	async function fetchDailyStats() {
-		const response = await useFetch<{ success: boolean, data: IDailyStats }>('https://tg.wogiveaway.shop/channels/woukraine/reports/daily')
-		dailyStats.value = response.data.value?.data|| {} as IDailyStats;
-	}
+    const { data: dailyStats, status: dailyStatsStatus, error: dailyStatsError, refresh: refreshDailyStats } = useAsyncData(
+        'daily-stats',
+        async () => {
+            try {
+                const response = await $fetch<{success: boolean, data: IDailyStats}>('https://tg.wogiveaway.shop/channels/woukraine/reports/daily');
+                if (response.success && response.data) {
+                    return response.data;
+                }
+                throw new Error('Failed to fetch daily stats');
+            } catch (e: any) {
+                throw new Error(e.message || 'Помилка завантаження');
+            }
+        },
+        {
+            watch: [],
+            server: false,
+            transform: (response) => response as IDailyStats
+        }
+    );
 
-	async function fetchStats() {
-		const response = await useFetch<{success: boolean, data: IStats}>('https://tg.wogiveaway.shop/channels/woukraine/stats');
-		stats.value = response.data.value?.data || {} as IStats
-	}
-
-	return {
-		dailyStats,
-		fetchDailyStats,
-		stats,
-		fetchStats
-	}
+    return {
+        stats,
+        status,
+        error,
+        refresh,
+        dailyStats,
+        dailyStatsStatus,
+        dailyStatsError,
+        refreshDailyStats
+    }
 });
