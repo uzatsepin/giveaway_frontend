@@ -10,6 +10,8 @@ export interface IGiveaway {
     startDate: string;
     endDate: string;
     prize: string;
+    subsBeforeStart: number;
+    subsAfterEnd: number;
     status: "DRAFT" | "ACTIVE" | "COMPLETED" | "CANCELLED";
     imageUrl: string;
     participantsCount: number;
@@ -59,6 +61,7 @@ export interface IMessageForm {
     imageUrl: string;
     buttonText: string;
     giveawayId: any;
+    messageId: number;
 }
 
 export interface IMessage {
@@ -78,4 +81,5 @@ export interface IGiveawayMessage {
     giveawayId: number
     id: number
     imageUrl: string
+    messageId: number;
 }

@@ -1,12 +1,13 @@
 <template>
     <AdminLayout>
         <h2 class="text-2xl font-bold text-gray-900">Створити повідомлення в Telegram</h2>
+        <p class="text-gray-600 mt-2">Публікація розіграшу на канал.</p>
         <div
-            class="mt-8 grid grid-cols-1 gap-8 md:gap-0 md:grid-cols-2"
+            class="mt-8 flex justify-between"
             v-if="!isLoading">
-            <div>
+            <div class="w-full">
                 <h3 class="text-lg font-semibold mb-4">Створення повідомлення</h3>
-                <div class="p-4 md:p-6 rounded-2xl bg-white shadow-md max-w-[550px] h-fit">
+                <div class="p-4 md:p-6 rounded-2xl bg-white shadow-md w-full max-w-[550px] h-fit">
                     <form
                         @submit.prevent="handleSubmit"
                         class="">
@@ -79,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="">
+            <div class="w-full">
                 <h3 class="text-lg font-semibold mb-4">Попередній перегляд</h3>
                 <MessageItem :message="form" />
             </div>
@@ -115,7 +116,8 @@ const form = ref<IMessageForm>({
     content: "",
     imageUrl: "",
     buttonText: "",
-    giveawayId: ""
+    giveawayId: "",
+    messageId: 0
 });
 
 if (!import.meta.server) {
@@ -143,7 +145,8 @@ const handleSubmit = async (event: Event) => {
                 content: "",
                 imageUrl: "",
                 buttonText: "",
-                giveawayId: ""
+                giveawayId: "",
+                messageId: 0
             };
         } else {
             throw new Error(response.error);

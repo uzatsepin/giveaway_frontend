@@ -47,8 +47,6 @@ import { toast } from "~/components/ui/toast/use-toast";
 import { User, RectangleEllipsis } from 'lucide-vue-next';
 import { useAuthStore } from "~/store/authStore";
 
-const {validateToken} = useAuth();
-
 const form = reactive({
     username: '',
     password: ''
@@ -79,11 +77,8 @@ const handleLogin = async () => {
 }
 
 
-onMounted(async () => {
-  const token = useCookie('token').value;
-  if (token && !authStore.userData) {
-    await validateToken(token);
-  }
+definePageMeta({
+    middleware: ['auth']
 });
 
 

@@ -9,7 +9,7 @@
             </div>
 
             <div>
-                <div class="flex justify-end mb-4">
+                <div class="flex justify-start mb-4">
                     <Button class="mb-4" @click="exportToExcel" :disabled="participants.length < 1" variant="secondary">
                         <Sheet class="w-5 h-5" />
                         Завантажити всіх учасників у Excel

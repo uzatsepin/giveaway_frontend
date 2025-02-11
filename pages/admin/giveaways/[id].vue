@@ -69,24 +69,44 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-2 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <GiveawayStatCard title="Залишилось" :value="durationStats.value" :subtext="durationStats.subtext" :icon="CalendarClock" />
+            <div class="grid grid-cols-1 gap-2 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <GiveawayStatCard 
+                    title="Залишилось" 
+                    :value="durationStats.value" 
+                    :subtext="durationStats.subtext" 
+                    :icon="CalendarClock"
+                />
                 <GiveawayStatCard
                     title="Повідомлень"
                     :value="giveaway?.messages.length"
                     :subtext="`Повідомлень про розіграш`"
                     :icon="Send"
                 />
-                <GiveawayStatCard title="Учасники" :value="giveaway?.participantsCount" :subtext="`Всього учасників`" :icon="UsersRound" />
+                <GiveawayStatCard 
+                    title="Учасники" 
+                    :value="giveaway?.participantsCount" 
+                    :subtext="`Всього учасників`" 
+                    :icon="UsersRound"
+                />
+                <GiveawayStatCard 
+                    title="Підписалось" 
+                    :value="subscribers" 
+                    :subtext="`Різниця кількості підписників`" 
+                    :icon="UserCheck"
+                />
             </div>
-
             <GiveawayParticipantsTable :giveawayId="giveaway?.id" />
 
             <div>
                 <h3 class="text-xl font-bold mt-10">Останні повідомлення по розіграшу</h3>
 
                 <div class="mt-6 md:ml-10 grid grid-cols-1 md:grid-cols-3 gap-16">
-                    <MessageItem v-for="message in giveaway?.messages" :key="message.id" :message="message" />
+                    <MessageItem 
+                        v-for="message in giveaway?.messages" 
+                        :key="message.id" 
+                        :message="message" 
+                        :giveawayPage="true"
+                    />
                 </div>
             </div>
         </div>
@@ -191,7 +211,7 @@
 </template>
 
 <script setup lang="ts">
-import { CalendarCheck, CalendarClock, CircleUser, Edit, Send, UsersRound } from "lucide-vue-next";
+import { CalendarCheck, CalendarClock, CircleUser, Edit, Send, UsersRound, UserCheck } from "lucide-vue-next";
 import { differenceInDays } from "date-fns";
 import { useToast } from "~/components/ui/toast/use-toast";
 import type { IGiveaway } from "~/types/giveaway.type";
@@ -222,7 +242,6 @@ interface ErrorResponse {
 }
 
 const route = useRoute();
-const config = useRuntimeConfig();
 const { toast } = useToast();
 
 const openEditGiveaway = ref(false);
@@ -234,6 +253,10 @@ const giveawayStatuses = [
     { value: "completed", label: "Завершений" },
     { value: "cancelled", label: "Скасований" },
 ];
+
+const subscribers = computed(() => {
+    return (giveaway.value?.subsAfterEnd ?? 0) - (giveaway.value?.subsBeforeStart ?? 0);
+})
 
 const originalForm = ref<IGiveawayForm | null>(null);
 const form = ref<IGiveawayForm>({

@@ -26,12 +26,28 @@ export const validateDates = (startDate: Date, endDate: Date): boolean => {
     return start < endDate && start >= now;
 };
 
-export const formatDateCard = (date: Date) => {
-    return new Date(date).toLocaleString("uk-UA", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
+export const formatDateCard = (dateString: string) => {
+    try {
+        const isISOFormat = dateString.endsWith('Z');
+        let utcDate: Date;
+
+        if (isISOFormat) {
+            utcDate = new Date(dateString);
+        } else {
+            const [datePart, timePart] = dateString.split(' ');
+            utcDate = new Date(`${datePart}T${timePart}.000Z`);
+        }
+
+        return utcDate.toLocaleString("uk-UA", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: 'Europe/Kiev'
+        });
+    } catch (error) {
+        console.error('Date formatting error:', error);
+        return 'Invalid date';
+    }
 };

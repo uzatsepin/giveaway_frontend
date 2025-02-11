@@ -55,8 +55,15 @@ export const useAuthStore = defineStore("auth", () => {
         tokenCookie.value = null;
       }
 
+    function logout() {
+        userData.value = undefined;
+        const tokenCookie = useCookie('token');
+        tokenCookie.value = null;
+    }
+
     return {
         login,
+        logout,
         userData,
         setUserData,
         clearUserData

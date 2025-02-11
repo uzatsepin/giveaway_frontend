@@ -6,7 +6,7 @@
             </div>
             <div class="ml-4">
                 <p class="text-sm font-medium text-slate-500">{{ title }}</p>
-                <p class="text-2xl font-semibold text-slate-900">{{ value }}</p>
+                <p class="text-2xl font-semibold text-slate-900">{{ Number(value) > 0 ? `${value}` : 'Завершений' }}</p>
                 <p v-if="subtext" class="text-sm text-slate-500">{{ subtext }}</p>
             </div>
         </div>
