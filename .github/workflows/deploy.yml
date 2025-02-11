@@ -36,27 +36,31 @@ jobs:
 
       - name: Deploy the app to VPS
         run: |
-          echo "Connecting to VPS..."
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            echo "Navigating to project directory..."
             cd /root/giveaway_frontend || exit
-
-            echo "Pulling latest changes from repository..."
-            git pull || exit
-
-            echo "Building the project..."
-            yarn generate || exit
-
-            if [ ! -d ".output/public" ]; then
-              echo "Error: .output/public does not exist or is empty."
+            
+            # Clean install
+            rm -rf node_modules
+            rm yarn.lock
+            yarn cache clean
+            
+            # Install dependencies
+            export NODE_ENV=production
+            yarn install --frozen-lockfile
+            
+            # Clear nuxt cache
+            rm -rf .nuxt
+            rm -rf .output
+            
+            # Generate
+            yarn generate
+            
+            if [ -d ".output/public" ]; then
+              sudo rm -rf /var/www/wogiveaway.shop/*
+              sudo cp -r .output/public/* /var/www/wogiveaway.shop
+              echo "Deployment completed successfully."
+            else
+              echo "Build failed: .output/public directory not found"
               exit 1
             fi
-
-            echo "Removing old files from /var/www/wogiveaway.shop..."
-            sudo rm -rf /var/www/wogiveaway.shop/* || exit
-
-            echo "Copying new files to /var/www/wogiveaway.shop..."
-            sudo cp -r .output/public/* /var/www/wogiveaway.shop || exit
-
-            echo "Deployment completed successfully."
           EOF
