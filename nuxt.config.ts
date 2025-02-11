@@ -2,6 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  build: {
+    transpile: ['vue3-apexcharts', 'apexcharts']
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['vue3-apexcharts']
+    }
+  },
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_API_BASE_URL || 'https://wogiveaway.shop/api'
