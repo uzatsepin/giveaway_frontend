@@ -145,7 +145,7 @@ const checkChannel = async () => {
     openModal.value = true;
     try {
         isLoading.value = true;
-        const { data } = await $fetch<{ success: boolean; data: IStats }>(`http://49.12.45.101:3005/channels/${inputValue.value}/stats`);
+        const { data } = await $fetch<{ success: boolean; data: IStats }>(`https://tg.wogiveaway.shop/channels/${inputValue.value}/stats`);
 
         if (data) {
             channelData.value = data;

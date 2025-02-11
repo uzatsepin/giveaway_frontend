@@ -118,7 +118,7 @@ const props = defineProps<{
 const { data:postStats, status } = await useAsyncData(`posts-stats-${props.message.messageId}`, async () => {
     if (!props.giveawayPage) return
 
-    const response = await $fetch<{success: true, data: IMessageStats}>(`http://49.12.45.101:3005/channels/woukraine/posts/${props.message.messageId}/engagement`);
+    const response = await $fetch<{success: true, data: IMessageStats}>(`https://tg.wogiveaway.shop/channels/woukraine/posts/${props.message.messageId}/engagement`);
     return response
 })
 

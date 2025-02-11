@@ -74,7 +74,7 @@ const periodText = computed(() => {
 });
 
 const { data: channelStats, status: statsStatus } = useAsyncData("stats", async () => {
-    const response = await $fetch<{ success: true; data: IStats }>("http://49.12.45.101:3005/channels/woukraine/stats");
+    const response = await $fetch<{ success: true; data: IStats }>("https://tg.wogiveaway.shop/channels/woukraine/stats");
     return response.data;
 });
 </script>

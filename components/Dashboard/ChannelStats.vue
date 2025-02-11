@@ -61,7 +61,7 @@ const selectedPeriod = ref('weekly');
 
 const { data: stats, refresh: refreshStats } = await useAsyncData('channelStats', async () => {
     const response = await $fetch<WeeklyResponse>(
-        `http://49.12.45.101:3005/channels/woukraine/reports/${selectedPeriod.value}`
+        `https://tg.wogiveaway.shop/channels/woukraine/reports/${selectedPeriod.value}`
     );
     return response.data.weekly_stats;
 });

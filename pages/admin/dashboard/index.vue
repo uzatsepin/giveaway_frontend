@@ -67,7 +67,7 @@ const selectedPeriod = ref('1d');
 
 const { data: historyStats, refresh: refreshHistory, status: historyStatus } = await useAsyncData("historyStats", async () => {
     const response = await $fetch<{ success: true; data: IHistoryData }>(
-        `http://49.12.45.101:3005/channels/woukraine/history?period=${selectedPeriod.value}`
+        `https://tg.wogiveaway.shop/channels/woukraine/history?period=${selectedPeriod.value}`
     );
     return response.data;
 });
