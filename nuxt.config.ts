@@ -3,19 +3,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   build: {
-    transpile: ['vue3-apexcharts', 'apexcharts'],
+    transpile: ['vue3-apexcharts']
   },
   vite: {
-    build: {
-      rollupOptions: {
-        external: ['vue3-apexcharts']
-      }
-    },
     optimizeDeps: {
-      include: ['vue3-apexcharts', 'apexcharts']
+      include: ['vue3-apexcharts']
     },
     ssr: {
-      noExternal: ['vue3-apexcharts', 'apexcharts']
+      noExternal: ['vue3-apexcharts']
     }
   },
   runtimeConfig: {
