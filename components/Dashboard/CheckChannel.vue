@@ -38,19 +38,19 @@
 						<div class="p-2 border border-slate-200 rounded-lg">
 							<div class="flex items-center gap-4 w-full justify-between pb-2 px-2">
 								<p class="font-medium">Підписників</p>
-								<p class="font-bold">{{ channelData.participants_count.toLocaleString('uk') }}</p>
+								<p class="font-bold">{{ channelData?.participants_count?.toLocaleString('uk') }}</p>
 							</div>
 							<div class="flex items-center gap-4 w-full justify-between py-2 px-2 border-t border-slate-200">
 								<p class="font-medium">Всього переглядів</p>
-								<p>{{ channelData.total_views.toLocaleString('uk') }}</p>
+								<p>{{ channelData?.total_views?.toLocaleString('uk') }}</p>
 							</div>
 							<div class="flex items-center gap-4 w-full justify-between py-2 px-2 border-t border-slate-200">
 								<p class="font-medium">Середній перегляд постів</p>
-								<p>{{ channelData.average_views.toLocaleString('uk') }}</p>
+								<p>{{ channelData?.average_views?.toLocaleString('uk') }}</p>
 							</div>
 							<div class="flex items-center gap-4 w-full justify-between py-2 px-2 border-t border-slate-200">
 								<p class="font-medium">Макс.кількість переглядів</p>
-								<p class="flex items-center gap-2">{{ channelData.max_views.toLocaleString('uk') }} 
+								<p class="flex items-center gap-2">{{ channelData?.max_views?.toLocaleString('uk') }} 
 									<TooltipProvider :delayDuration="100">
 										<Tooltip>
 										<TooltipTrigger as-child>
@@ -68,7 +68,7 @@
 							<div class="flex items-center gap-4 w-full justify-between py-2 px-2 border-t border-slate-200">
 								<p class="font-medium">Відсоток залученості</p>
 								<p class="flex items-center gap-2">
-									{{ channelData.engagement_rate.toLocaleString('uk') }} %
+									{{ channelData?.engagement_rate?.toLocaleString('uk') }} %
 									<TooltipProvider :delayDuration="100">
 										<Tooltip>
 										<TooltipTrigger as-child>

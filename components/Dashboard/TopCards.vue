@@ -6,7 +6,7 @@
                 <UserRoundPlus class="w-5 h-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div class="text-2xl font-bold">{{ historyStats?.current_subscribers.toLocaleString("uk") }}</div>
+                <div class="text-2xl font-bold">{{ historyStats?.current_subscribers?.toLocaleString("uk") }}</div>
                 <p
                     class="text-sm font-bold mt-2"
                     :class="{
